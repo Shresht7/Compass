@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.shresht7.compass.R
@@ -47,10 +49,16 @@ fun CompassNeedle(
     modifier: Modifier = Modifier
 ) {
     Image(
-        painter = painterResource(id = R.drawable.compass_needle_original),
+        imageVector = ImageVector.vectorResource(id = R.drawable.compass_needle_original),
         contentDescription = "Compass Needle",
         modifier = modifier.rotate(rotation)
     )
+}
+
+@Preview
+@Composable
+fun CompassNeedlePreview() {
+    CompassNeedle(rotation = 15f)
 }
 
 @Preview(showBackground = true, showSystemUi = true)
