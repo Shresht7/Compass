@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.shresht7.compass.ui.screen.CompassScreen
 import com.shresht7.compass.ui.theme.CompassTheme
+import com.shresht7.compass.viewModel.CompassViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
             CompassTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        CompassScreen()
+                        CompassScreen(CompassViewModel(application))
                     }
                 }
             }
