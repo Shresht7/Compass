@@ -27,11 +27,11 @@ fun CompassLocation(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "Latitude")
-            Text(text = String.format("%.4f", latitude))
+            Text(text = String.format("%.2f°", latitude))
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "Longitude")
-            Text(text = String.format("%.4f", longitude))
+            Text(text = String.format("%.2f°", longitude))
         }
         if (altitude != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
