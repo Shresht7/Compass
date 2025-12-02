@@ -42,7 +42,7 @@ fun CompassView(
         contentAlignment = Alignment.Center
     ) {
         CompassNeedle(
-            rotation = azimuth,
+            rotation = -azimuth,
             modifier = Modifier.fillMaxSize()
         )
     }
