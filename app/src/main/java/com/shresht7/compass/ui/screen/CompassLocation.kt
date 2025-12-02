@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,17 +27,17 @@ fun CompassLocation(
         horizontalArrangement = horizontalArrangement
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Latitude")
-            Text(text = String.format("%.2f°", latitude))
+            Text(text = "Latitude", style = MaterialTheme.typography.titleMedium)
+            Text(text = String.format("%.2f°", latitude), style = MaterialTheme.typography.headlineMedium)
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Longitude")
-            Text(text = String.format("%.2f°", longitude))
+            Text(text = "Longitude", style = MaterialTheme.typography.titleMedium)
+            Text(text = String.format("%.2f°", longitude), style = MaterialTheme.typography.headlineMedium)
         }
         if (altitude != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Altitude")
-                Text(text = String.format("%.2f m", altitude))
+                Text(text = "Altitude", style = MaterialTheme.typography.titleMedium)
+                Text(text = String.format("%.2f m", altitude), style = MaterialTheme.typography.headlineMedium)
             }
         }
     }
