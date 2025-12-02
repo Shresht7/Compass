@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,22 +23,22 @@ fun CompassLocation(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.SpaceEvenly,
 ) {
     Row(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(16.dp, bottom = 48.dp),
         verticalAlignment = verticalAlignment,
         horizontalArrangement = horizontalArrangement
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Latitude", style = MaterialTheme.typography.titleMedium)
-            Text(text = String.format("%.2f°", latitude), style = MaterialTheme.typography.headlineMedium)
+            Text(text = "Latitude", style = MaterialTheme.typography.titleSmall)
+            Text(text = String.format("%.2f°", latitude), style = MaterialTheme.typography.headlineSmall)
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Longitude", style = MaterialTheme.typography.titleMedium)
-            Text(text = String.format("%.2f°", longitude), style = MaterialTheme.typography.headlineMedium)
+            Text(text = "Longitude", style = MaterialTheme.typography.titleSmall)
+            Text(text = String.format("%.2f°", longitude), style = MaterialTheme.typography.headlineSmall)
         }
         if (altitude != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Altitude", style = MaterialTheme.typography.titleMedium)
-                Text(text = String.format("%.2f m", altitude), style = MaterialTheme.typography.headlineMedium)
+                Text(text = "Altitude", style = MaterialTheme.typography.titleSmall)
+                Text(text = String.format("%.2f m", altitude), style = MaterialTheme.typography.headlineSmall)
             }
         }
     }
