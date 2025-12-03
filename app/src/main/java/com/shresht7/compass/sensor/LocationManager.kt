@@ -17,7 +17,8 @@ data class Location(
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
     val altitude: Double = 0.0,
-    val hasAltitude: Boolean = false
+    val hasAltitude: Boolean = false,
+    val speed: Float = 0f
 )
 
 class LocationManager(context: Context) {
@@ -37,7 +38,8 @@ class LocationManager(context: Context) {
                             latitude = location.latitude,
                             longitude = location.longitude,
                             altitude = location.altitude,
-                            hasAltitude = location.hasAltitude()
+                            hasAltitude = location.hasAltitude(),
+                            speed = location.speed
                         )
                     )
                 }
