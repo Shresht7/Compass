@@ -18,6 +18,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.shresht7.compass.R
 import com.shresht7.compass.state.CompassState
+import com.shresht7.compass.state.degrees
+import com.shresht7.compass.state.direction
 import com.shresht7.compass.viewModel.CompassViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,6 +44,12 @@ fun CompassView(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        CompassHeading(
+            degrees = compassState.degrees(),
+            direction = compassState.direction(),
+            modifier = Modifier.fillMaxWidth(),
+        )
+
         Box(
             modifier = Modifier.weight(1f),
             contentAlignment = Alignment.Center
@@ -51,6 +59,7 @@ fun CompassView(
                 modifier = Modifier.fillMaxSize()
             )
         }
+
         CompassLocation(
             latitude = compassState.location.latitude,
             longitude = compassState.location.longitude,
