@@ -8,6 +8,10 @@ import android.hardware.SensorManager
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlin.math.pow
+import kotlin.math.sqrt
+
+data class CompassData(val azimuth: Float = 0f, val magneticField: Float = 0f)
 
 class CompassSensor(context: Context) {
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -17,7 +21,7 @@ class CompassSensor(context: Context) {
     private val rotationMatrix = FloatArray(9)
     private val orientationAngles = FloatArray(3)
 
-    fun getCompassFlow(): Flow<Float> = callbackFlow {
+    fun getCompassFlow(): Flow<CompassData> = callbackFlow {
         val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         val magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
 
@@ -43,7 +47,9 @@ class CompassSensor(context: Context) {
                 val azimuthInDegrees = Math.toDegrees(orientationAngles[0].toDouble()).toFloat()
                 val azimuth = (azimuthInDegrees + 360) % 360
 
-                trySend(azimuth)
+                val magneticField = sqrt(magnetometerReadings[0].pow(2) + magnetometerReadings[1].pow(2) + magnetometerReadings[2].pow(2))
+
+                trySend(CompassData(azimuth = azimuth, magneticField = magneticField))
             }
             override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
         }

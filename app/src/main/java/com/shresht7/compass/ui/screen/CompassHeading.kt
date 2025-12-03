@@ -20,6 +20,7 @@ fun CompassHeading(
     degrees: String,
     direction: String,
     speed: String,
+    magneticField: String,
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(8.dp)
@@ -37,7 +38,7 @@ fun CompassHeading(
             VerticalDivider(thickness = 2.dp, modifier = Modifier.height(48.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = speed, style = MaterialTheme.typography.titleSmall)
-                Text(text = "49 uT", style = MaterialTheme.typography.titleSmall)
+                Text(text = magneticField, style = MaterialTheme.typography.titleSmall)
             }
         }
     }
@@ -46,5 +47,5 @@ fun CompassHeading(
 @Composable
 @Preview(showBackground = true)
 fun CompassHeadingPreview() {
-    CompassHeading(degrees = "123.4", direction = "N", speed = "1.2 m/s")
+    CompassHeading(degrees = "123.4", direction = "N", speed = "1.2 m/s", magneticField = "49.1 μT")
 }

@@ -26,8 +26,11 @@ class CompassViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun startCompass() {
-        compassSensor.getCompassFlow().onEach { azimuth ->
-            _compassState.value = _compassState.value.copy(azimuth = azimuth)
+        compassSensor.getCompassFlow().onEach { compassData ->
+            _compassState.value = _compassState.value.copy(
+                azimuth = compassData.azimuth,
+                magneticField = compassData.magneticField
+            )
         }.launchIn(viewModelScope)
     }
 

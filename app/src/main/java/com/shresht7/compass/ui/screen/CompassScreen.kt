@@ -20,6 +20,7 @@ import com.shresht7.compass.R
 import com.shresht7.compass.state.CompassState
 import com.shresht7.compass.state.degrees
 import com.shresht7.compass.state.direction
+import com.shresht7.compass.state.magneticField
 import com.shresht7.compass.state.speed
 import com.shresht7.compass.viewModel.CompassViewModel
 
@@ -49,6 +50,7 @@ fun CompassView(
             degrees = compassState.degrees(),
             direction = compassState.direction(),
             speed = compassState.speed(),
+            magneticField = compassState.magneticField(),
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -92,5 +94,5 @@ fun CompassNeedlePreview() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CompassScreenPreview() {
-    CompassView(compassState = CompassState(azimuth = 10f))
+    CompassView(compassState = CompassState(azimuth = 10f, magneticField = 49.1f))
 }

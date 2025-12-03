@@ -8,10 +8,12 @@ import com.shresht7.compass.sensor.Location
  * @property azimuth The current azimuth value in degrees, representing the direction the top of the
  * device is pointing, where 0 is North, 90 is East, 180 is South, and 270 is West.
  * @property location The current location of the device.
+ * @property magneticField The magnetic field strength in micro-Tesla (μT).
  */
 data class CompassState(
     val azimuth: Float = 0f,
-    val location: Location = Location()
+    val location: Location = Location(),
+    val magneticField: Float = 0f
 )
 
 /**
@@ -74,4 +76,16 @@ fun CompassState.degrees(): String {
  */
 fun CompassState.speed(): String {
     return String.format("%.1f m/s", location.speed)
+}
+
+/**
+ * Formats the magnetic field strength value from the [CompassState] into a human-readable string
+ * with one decimal place, appended with " μT".
+ *
+ * For example, a magnetic field of `49.123f` would be formatted as `"49.1 μT"`.
+ *
+ * @return A [String] representing the formatted magnetic field strength.
+ */
+fun CompassState.magneticField(): String {
+    return String.format("%.1f μT", magneticField)
 }
