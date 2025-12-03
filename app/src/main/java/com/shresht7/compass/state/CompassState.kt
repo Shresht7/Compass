@@ -29,13 +29,13 @@ const val SECTOR_ANGLE = 45f
  * cardinal direction abbreviation.
  *
  * For example:
- * - An azimuth of 0° is North (\"N\").
- * - An azimuth of 45° is North-East (\"NE\").
- * - An azimuth of 90° is East (\"E\").
+ * - An azimuth of 0° is North ("N").
+ * - An azimuth of 45° is North-East ("NE").
+ * - An azimuth of 90° is East ("E").
  *
  * The calculation handles the wrap-around at 360°/0° for the North sector.
  *
- * @return A string representing the cardinal direction (e.g., \"N\", \"NE\", \"E\", \"SE\", \"S\", \"SW\", \"W\", \"NW\").
+ * @return A string representing the cardinal direction (e.g., "N", "NE", "E", "SE", "S", "SW", "W", "NW").
  */
 fun CompassState.direction(): String {
     val halfSector = SECTOR_ANGLE / 2f
@@ -56,10 +56,22 @@ fun CompassState.direction(): String {
  * Formats the azimuth value from the [CompassState] into a human-readable string
  * with one decimal place, appended with the degree symbol.
  *
- * For example, an azimuth of `45.123f` would be formatted as `\"45.1°\"`.
+ * For example, an azimuth of `45.123f` would be formatted as `"45.1°"`.
  *
  * @return A [String] representing the formatted degrees.
  */
 fun CompassState.degrees(): String {
     return String.format("%.1f°", azimuth)
+}
+
+/**
+ * Formats the speed value from the [CompassState] into a human-readable string
+ * with one decimal place, appended with " m/s".
+ *
+ * For example, a speed of `1.23f` would be formatted as `"1.2 m/s"`.
+ *
+ * @return A [String] representing the formatted speed.
+ */
+fun CompassState.speed(): String {
+    return String.format("%.1f m/s", location.speed)
 }
