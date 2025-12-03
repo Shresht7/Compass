@@ -4,6 +4,7 @@ import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,6 +30,10 @@ fun CompassBackground(
     }
     val directions = listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW")
 
+    val innerCircleColor = Color.Gray
+    val outerCircleColor = Color.White
+    val markColor = MaterialTheme.colorScheme.onBackground
+
     Canvas(modifier = modifier) {
         val center = this.center
         val radius = size.minDimension / 3f
@@ -43,7 +48,7 @@ fun CompassBackground(
                 val angleDegrees = i * 45f - 90f
                 val angleRad = Math.toRadians(angleDegrees.toDouble())
 
-                val textRadius = radius * 0.88f
+                val textRadius = radius * 0.95f
                 val x = center.x + textRadius * cos(angleRad).toFloat()
                 val y = center.y + textRadius * sin(angleRad).toFloat()
 
@@ -60,12 +65,7 @@ fun CompassBackground(
             // Inner circle
             val innerCircleRadius = radius * 0.5f
             drawCircle(
-                color = Color.Transparent,
-                radius = innerCircleRadius,
-                center = center
-            )
-            drawCircle(
-                color = Color.Gray,
+                color = innerCircleColor,
                 radius = innerCircleRadius,
                 center = center,
                 style = Stroke(width = 2.dp.toPx())
@@ -78,8 +78,8 @@ fun CompassBackground(
                 val isMajor = i % 2 == 0 // N, S are at -90 and 90
                 val markLength = innerCircleRadius * if (isMajor) 0.35f else 0.2f
 
-                val startRadius = innerCircleRadius * 0.95f
-                val endRadius = startRadius - markLength
+                val startRadius = innerCircleRadius * (if (isMajor) 0.85f else 0.95f)
+                val endRadius = innerCircleRadius * (if (isMajor) 1.15f else 1.05f)
 
                 val startX = center.x + startRadius * cos(angleRad).toFloat()
                 val startY = center.y + startRadius * sin(angleRad).toFloat()
@@ -88,10 +88,10 @@ fun CompassBackground(
                 val endY = center.y + endRadius * sin(angleRad).toFloat()
 
                 drawLine(
-                    color = Color.White,
+                    color = markColor,
                     start = Offset(startX, startY),
                     end = Offset(endX, endY),
-                    strokeWidth = if (isMajor) 4.dp.toPx() else 2.dp.toPx()
+                    strokeWidth = if (isMajor) 2.dp.toPx() else 1.dp.toPx()
                 )
             }
 
