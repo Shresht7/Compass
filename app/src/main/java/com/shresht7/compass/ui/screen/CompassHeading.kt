@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 fun CompassHeading(
     degrees: String,
     direction: String,
+    speed: String,
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(8.dp)
@@ -35,7 +36,7 @@ fun CompassHeading(
             Text(text = "$degrees $direction", style = MaterialTheme.typography.displaySmall)
             VerticalDivider(thickness = 2.dp, modifier = Modifier.height(48.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "16 m/s", style = MaterialTheme.typography.titleSmall)
+                Text(text = speed, style = MaterialTheme.typography.titleSmall)
                 Text(text = "49 uT", style = MaterialTheme.typography.titleSmall)
             }
         }
@@ -45,5 +46,5 @@ fun CompassHeading(
 @Composable
 @Preview(showBackground = true)
 fun CompassHeadingPreview() {
-    CompassHeading(degrees = "123.4", direction = "N")
+    CompassHeading(degrees = "123.4", direction = "N", speed = "1.2 m/s")
 }

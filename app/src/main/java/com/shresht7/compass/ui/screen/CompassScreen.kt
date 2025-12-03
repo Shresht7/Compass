@@ -20,6 +20,7 @@ import com.shresht7.compass.R
 import com.shresht7.compass.state.CompassState
 import com.shresht7.compass.state.degrees
 import com.shresht7.compass.state.direction
+import com.shresht7.compass.state.speed
 import com.shresht7.compass.viewModel.CompassViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,6 +48,7 @@ fun CompassView(
         CompassHeading(
             degrees = compassState.degrees(),
             direction = compassState.direction(),
+            speed = compassState.speed(),
             modifier = Modifier.fillMaxWidth(),
         )
 
