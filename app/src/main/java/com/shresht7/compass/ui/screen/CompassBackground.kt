@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
@@ -31,8 +32,6 @@ fun CompassBackground(
     val directions = listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW")
 
     val innerCircleColor = Color.Gray
-    val outerCircleColor = Color.White
-    val markColor = MaterialTheme.colorScheme.onBackground
 
     Canvas(modifier = modifier) {
         val center = this.center
@@ -84,10 +83,9 @@ fun CompassBackground(
                 val angleDegrees = i * 90f - 90f // N, E, S, W
                 val angleRad = Math.toRadians(angleDegrees.toDouble())
                 val isMajor = i % 2 == 0 // N, S are at -90 and 90
-                val markLength = innerCircleRadius * if (isMajor) 0.35f else 0.2f
 
-                val startRadius = innerCircleRadius * (if (isMajor) 0.85f else 0.95f)
-                val endRadius = innerCircleRadius * (if (isMajor) 1.15f else 1.05f)
+                val startRadius = innerCircleRadius * (if (isMajor) 0.90f else 0.95f)
+                val endRadius = innerCircleRadius * (if (isMajor) 1.20f else 1.05f)
 
                 val startX = center.x + startRadius * cos(angleRad).toFloat()
                 val startY = center.y + startRadius * sin(angleRad).toFloat()
@@ -96,10 +94,11 @@ fun CompassBackground(
                 val endY = center.y + endRadius * sin(angleRad).toFloat()
 
                 drawLine(
-                    color = markColor,
+                    color = innerCircleColor,
                     start = Offset(startX, startY),
                     end = Offset(endX, endY),
-                    strokeWidth = if (isMajor) 2.dp.toPx() else 1.dp.toPx()
+                    strokeWidth = if (isMajor) 2.dp.toPx() else 1.dp.toPx(),
+                    cap = StrokeCap.Round
                 )
             }
 
