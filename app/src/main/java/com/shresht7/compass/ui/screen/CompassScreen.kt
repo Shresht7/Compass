@@ -59,6 +59,10 @@ fun CompassView(
             modifier = Modifier.weight(1f),
             contentAlignment = Alignment.Center
         ) {
+            CompassBackground(
+                rotation = 0f,
+                modifier = Modifier.fillMaxSize()
+            )
             CompassNeedle(
                 rotation = -compassState.azimuth,
                 modifier = Modifier.fillMaxSize()
