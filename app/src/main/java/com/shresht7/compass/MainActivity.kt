@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         if (permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) ||
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false)
         ) {
-            viewModel.startLocationUpdates()
+            startLocationUpdatesWithPermissionCheck()
         }
     }
 
@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
-                viewModel.startLocationUpdates()
+                startLocationUpdatesWithPermissionCheck()
             }
 
             else -> {
@@ -68,6 +68,19 @@ class MainActivity : ComponentActivity() {
                     )
                 )
             }
+        }
+    }
+
+    private fun startLocationUpdatesWithPermissionCheck() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            viewModel.startLocationUpdates()
         }
     }
 }
