@@ -1,9 +1,11 @@
 package com.shresht7.compass.ui.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,8 +16,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.shresht7.compass.R
+import com.shresht7.compass.state.CompassState
 import com.shresht7.compass.viewModel.CompassViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,26 +26,36 @@ fun CompassScreen(
     viewModel: CompassViewModel
 ) {
     val compassState by viewModel.compassState.collectAsState()
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CompassView(
-            azimuth = compassState.azimuth,
-            modifier = Modifier.size(300.dp)
-        )
-    }
+    CompassView(
+        compassState = compassState,
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 @Composable
 fun CompassView(
-    azimuth: Float,
+    compassState: CompassState,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Column(
         modifier = modifier,
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        CompassNeedle(
-            rotation = -azimuth,
-            modifier = Modifier.fillMaxSize()
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.Center
+        ) {
+            CompassNeedle(
+                rotation = -compassState.azimuth,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        CompassLocation(
+            latitude = compassState.location.latitude,
+            longitude = compassState.location.longitude,
+            altitude = if (compassState.location.hasAltitude) compassState.location.altitude else null,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -69,5 +81,5 @@ fun CompassNeedlePreview() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CompassScreenPreview() {
-    CompassView(10f)
+    CompassView(compassState = CompassState(azimuth = 10f))
 }

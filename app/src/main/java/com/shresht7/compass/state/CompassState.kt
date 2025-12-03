@@ -1,13 +1,17 @@
 package com.shresht7.compass.state
 
+import com.shresht7.compass.sensor.Location
+
 /**
  * Represents the current state of the compass.
  *
  * @property azimuth The current azimuth value in degrees, representing the direction the top of the
  * device is pointing, where 0 is North, 90 is East, 180 is South, and 270 is West.
+ * @property location The current location of the device.
  */
 data class CompassState(
     val azimuth: Float = 0f,
+    val location: Location = Location()
 )
 
 /**
@@ -25,13 +29,13 @@ const val SECTOR_ANGLE = 45f
  * cardinal direction abbreviation.
  *
  * For example:
- * - An azimuth of 0° is North ("N").
- * - An azimuth of 45° is North-East ("NE").
- * - An azimuth of 90° is East ("E").
+ * - An azimuth of 0° is North (\"N\").
+ * - An azimuth of 45° is North-East (\"NE\").
+ * - An azimuth of 90° is East (\"E\").
  *
  * The calculation handles the wrap-around at 360°/0° for the North sector.
  *
- * @return A string representing the cardinal direction (e.g., "N", "NE", "E", "SE", "S", "SW", "W", "NW").
+ * @return A string representing the cardinal direction (e.g., \"N\", \"NE\", \"E\", \"SE\", \"S\", \"SW\", \"W\", \"NW\").
  */
 fun CompassState.direction(): String {
     val halfSector = SECTOR_ANGLE / 2f
@@ -52,7 +56,7 @@ fun CompassState.direction(): String {
  * Formats the azimuth value from the [CompassState] into a human-readable string
  * with one decimal place, appended with the degree symbol.
  *
- * For example, an azimuth of `45.123f` would be formatted as `"45.1°"`.
+ * For example, an azimuth of `45.123f` would be formatted as `\"45.1°\"`.
  *
  * @return A [String] representing the formatted degrees.
  */
