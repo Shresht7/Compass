@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.shresht7.compass.R
+import com.shresht7.compass.sensor.Location
 import com.shresht7.compass.state.CompassState
 import com.shresht7.compass.state.degrees
 import com.shresht7.compass.state.direction
@@ -68,6 +69,7 @@ fun CompassView(
             latitude = compassState.location.latitude,
             longitude = compassState.location.longitude,
             altitude = if (compassState.location.hasAltitude) compassState.location.altitude else null,
+            address = compassState.location.address,
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -76,5 +78,12 @@ fun CompassView(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CompassScreenPreview() {
-    CompassView(compassState = CompassState(azimuth = 10f, magneticField = 49.1f))
+    val previewLocation = Location(
+        latitude = 40.7128,
+        longitude = -74.0060,
+        address = "New York, NY, USA",
+        hasAltitude = true,
+        altitude = 121.4
+    )
+    CompassView(compassState = CompassState(azimuth = 10f, magneticField = 49.1f, location = previewLocation))
 }
