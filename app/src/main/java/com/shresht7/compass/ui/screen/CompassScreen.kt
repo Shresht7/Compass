@@ -73,24 +73,6 @@ fun CompassView(
     }
 }
 
-@Composable
-fun CompassNeedle(
-    rotation: Float,
-    modifier: Modifier = Modifier
-) {
-    Image(
-        imageVector = ImageVector.vectorResource(id = R.drawable.compass_needle_original),
-        contentDescription = "Compass Needle",
-        modifier = modifier.rotate(rotation)
-    )
-}
-
-@Preview
-@Composable
-fun CompassNeedlePreview() {
-    CompassNeedle(rotation = 15f)
-}
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CompassScreenPreview() {
