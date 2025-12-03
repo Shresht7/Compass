@@ -48,6 +48,14 @@ fun CompassBackground(
                 val angleDegrees = i * 45f - 90f
                 val angleRad = Math.toRadians(angleDegrees.toDouble())
 
+                textPaint.textSize = if (i % 2 == 0) radius * 0.15f else radius * 0.1f
+                textPaint.alpha = if (i % 2 == 0) 255 else 128
+                textPaint.color = when (dir) {
+                    "N" -> Color.Red
+                    "E", "W", "S" -> Color.White
+                    else -> Color.Gray
+                }.toArgb()
+
                 val textRadius = radius * 0.95f
                 val x = center.x + textRadius * cos(angleRad).toFloat()
                 val y = center.y + textRadius * sin(angleRad).toFloat()
