@@ -48,7 +48,7 @@ fun CompassView(
         verticalArrangement = Arrangement.Center
     ) {
         CompassHeading(
-            degrees = compassState.degrees(),
+            degrees = compassState.degrees(0),
             direction = compassState.direction(),
             speed = compassState.speed(),
             magneticField = compassState.magneticField(),

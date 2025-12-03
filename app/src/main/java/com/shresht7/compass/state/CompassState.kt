@@ -62,8 +62,8 @@ fun CompassState.direction(): String {
  *
  * @return A [String] representing the formatted degrees.
  */
-fun CompassState.degrees(): String {
-    return String.format("%.1f°", azimuth)
+fun CompassState.degrees(decimalPlaces: Int = 1): String {
+    return String.format("%.${decimalPlaces}f°", azimuth)
 }
 
 /**
