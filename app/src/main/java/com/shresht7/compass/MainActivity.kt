@@ -13,8 +13,8 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.shresht7.compass.settings.AppSettingsManager
 import com.shresht7.compass.navigation.Screen
-import com.shresht7.compass.ui.screen.CompassScreen
-import com.shresht7.compass.ui.screen.SettingsScreen
+import com.shresht7.compass.ui.screen.compass.CompassScreen
+import com.shresht7.compass.ui.screen.settings.SettingsScreen
 import com.shresht7.compass.ui.theme.CompassTheme
 import com.shresht7.compass.viewModel.CompassViewModel
 

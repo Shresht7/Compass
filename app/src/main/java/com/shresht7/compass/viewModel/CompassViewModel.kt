@@ -15,9 +15,21 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 import com.shresht7.compass.settings.AppSettingsManager
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.catch
 
+/**
+ * The ViewModel for the compass screen.
+ *
+ * This class is responsible for managing the state of the compass screen, including the
+ * compass data, location information, and sensor delay settings. It interacts with the
+ * `CompassSensor`, `LocationManager`, and `AppSettingsManager` to keep the state up-to-date.
+ *
+ * @param application The application instance.
+ * @param appSettingsManager The manager for application settings.
+ */
+@OptIn(ExperimentalCoroutinesApi::class)
 class CompassViewModel(application: Application, appSettingsManager: AppSettingsManager) : AndroidViewModel(application) {
     private val compassSensor = CompassSensor(application)
     private val locationManager = LocationManager(application)
