@@ -1,4 +1,4 @@
-package com.shresht7.compass.ui.screen
+package com.shresht7.compass.ui.screen.compass
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable

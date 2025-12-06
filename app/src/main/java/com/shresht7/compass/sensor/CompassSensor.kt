@@ -19,6 +19,15 @@ import kotlin.math.sqrt
  */
 data class CompassData(val azimuth: Float = 0f, val magneticField: Float = 0f)
 
+/**
+ * A sensor manager for the compass that provides a flow of compass data.
+ *
+ * This class encapsulates the logic for interacting with the accelerometer and magnetometer
+ * to calculate the device's orientation. It provides a `Flow` of `CompassData` that can be
+ * collected by a `ViewModel` to update the UI.
+ *
+ * @param context The application context.
+ */
 class CompassSensor(context: Context) {
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -27,6 +36,19 @@ class CompassSensor(context: Context) {
     private val rotationMatrix = FloatArray(9)
     private val orientationAngles = FloatArray(3)
 
+    /**
+     * Returns a flow of compass data.
+     *
+     * This function creates a `callbackFlow` that registers sensor listeners for the
+     * accelerometer and magnetometer. It calculates the orientation and emits a
+     * `CompassData` object with the azimuth and magnetic field strength.
+     *
+     * If the required sensors are not available, the flow is closed with an
+     * `IllegalStateException`.
+     *
+     * @param sensorDelay The desired delay between sensor events.
+     * @return A `Flow` of `CompassData`.
+     */
     fun getCompassFlow(sensorDelay: Int): Flow<CompassData> = callbackFlow {
         val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         val magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)

@@ -1,4 +1,4 @@
-package com.shresht7.compass.ui.screen
+package com.shresht7.compass.ui.screen.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +24,15 @@ import android.hardware.SensorManager
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 
+/**
+ * The settings screen of the application.
+ *
+ * This composable provides a UI for users to configure various application settings,
+ * such as the sensor delay for the compass.
+ *
+ * @param backStack The navigation back stack for handling navigation actions.
+ * @param appSettingsManager The manager for application settings, used to read and write preferences.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(backStack: NavBackStack<NavKey>, appSettingsManager: AppSettingsManager) {
@@ -43,12 +52,36 @@ fun SettingsScreen(backStack: NavBackStack<NavKey>, appSettingsManager: AppSetti
     }
 }
 
+/**
+ * A composable that provides a UI for configuring the sensor delay setting.
+ *
+ * This composable uses a slider to allow the user to select one of four predefined
+ * sensor delay options: Fastest, Game, Normal, and UI. The selected delay is
+ * persisted using the `AppSettingsManager`.
+ *
+ * @param appSettingsManager The manager for application settings.
+ */
 @Composable
 fun SensorDelaySetting(appSettingsManager: AppSettingsManager) {
     val scope = rememberCoroutineScope()
     val sensorDelay by appSettingsManager.sensorDelay.collectAsState(initial = SensorManager.SENSOR_DELAY_FASTEST)
-    val sensorDelayOptions = listOf("UI", "Normal", "Game", "Fastest")
     
+    // Define the mapping between slider position (0-3) and SensorManager constants
+    val sliderToSensorDelay = mapOf(
+        0 to SensorManager.SENSOR_DELAY_FASTEST,
+        1 to SensorManager.SENSOR_DELAY_GAME,
+        2 to SensorManager.SENSOR_DELAY_NORMAL,
+        3 to SensorManager.SENSOR_DELAY_UI
+    )
+
+    // Define the mapping between SensorManager constants and display names
+    val sensorDelayToDisplayName = mapOf(
+        SensorManager.SENSOR_DELAY_FASTEST to "Fastest",
+        SensorManager.SENSOR_DELAY_GAME to "Game",
+        SensorManager.SENSOR_DELAY_NORMAL to "Normal",
+        SensorManager.SENSOR_DELAY_UI to "UI"
+    )
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -60,33 +93,13 @@ fun SensorDelaySetting(appSettingsManager: AppSettingsManager) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Sensor Delay")
-            Text(sensorDelayOptions[
-                when(sensorDelay) {
-                    SensorManager.SENSOR_DELAY_UI -> 0
-                    SensorManager.SENSOR_DELAY_NORMAL -> 1
-                    SensorManager.SENSOR_DELAY_GAME -> 2
-                    SensorManager.SENSOR_DELAY_FASTEST -> 3
-                    else -> 3 // Default to fastest
-                }
-            ])
+            Text(sensorDelayToDisplayName[sensorDelay] ?: "Normal") // Display current delay name
         }
         Slider(
-            value = when(sensorDelay) {
-                SensorManager.SENSOR_DELAY_UI -> 0f
-                SensorManager.SENSOR_DELAY_NORMAL -> 1f
-                SensorManager.SENSOR_DELAY_GAME -> 2f
-                SensorManager.SENSOR_DELAY_FASTEST -> 3f
-                else -> 3f // Default to fastest
-            },
-            onValueChange = {
+            value = sliderToSensorDelay.entries.find { it.value == sensorDelay }?.key?.toFloat() ?: 2f,
+            onValueChange = { sliderValue ->
                 scope.launch {
-                    val newDelay = when(it.toInt()) {
-                        0 -> SensorManager.SENSOR_DELAY_UI
-                        1 -> SensorManager.SENSOR_DELAY_NORMAL
-                        2 -> SensorManager.SENSOR_DELAY_GAME
-                        3 -> SensorManager.SENSOR_DELAY_FASTEST
-                        else -> SensorManager.SENSOR_DELAY_FASTEST
-                    }
+                    val newDelay = sliderToSensorDelay[sliderValue.toInt()] ?: SensorManager.SENSOR_DELAY_NORMAL
                     appSettingsManager.setSensorDelay(newDelay)
                 }
             },
