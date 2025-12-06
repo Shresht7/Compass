@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import androidx.datastore.preferences.core.booleanPreferencesKey
 
 /**
  * Extension property on [Context] to provide a single instance of [DataStore] for the application's
@@ -31,15 +32,51 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 class AppSettingsManager(private val context: Context) {
 
     private val sensorDelayKey = intPreferencesKey("sensor_delay")
+    private val locationEnabledKey = booleanPreferencesKey("location_enabled")
+    private val latitudeEnabledKey = booleanPreferencesKey("latitude_enabled")
+    private val longitudeEnabledKey = booleanPreferencesKey("longitude_enabled")
 
     val sensorDelay: Flow<Int> = context.dataStore.data
         .map { preferences ->
             preferences[sensorDelayKey] ?: SensorManager.SENSOR_DELAY_FASTEST // Default to fastest
         }
 
+    val locationEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[locationEnabledKey] ?: true // Default to true
+        }
+
+    val latitudeEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[latitudeEnabledKey] ?: true // Default to true
+        }
+
+    val longitudeEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[longitudeEnabledKey] ?: true // Default to true
+        }
+
     suspend fun setSensorDelay(delay: Int) {
         context.dataStore.edit { settings ->
             settings[sensorDelayKey] = delay
+        }
+    }
+
+    suspend fun setLocationEnabled(enabled: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[locationEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setLatitudeEnabled(enabled: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[latitudeEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setLongitudeEnabled(enabled: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[longitudeEnabledKey] = enabled
         }
     }
 }
