@@ -1,8 +1,10 @@
 package com.shresht7.compass.ui.screen.settings
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -10,6 +12,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.shresht7.compass.settings.AppSettingsManager
@@ -52,34 +55,47 @@ fun SettingsScreen(
                 .padding(start = 16.dp, end = 16.dp)
         ) {
             // Sensors Section
-            Text(
-                text = "Sensors",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            SensorDelaySetting(appSettingsManager)
+            Section("Sensors") {
+                SensorDelaySetting(appSettingsManager)
+            }
+
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
             // Heading Section
-            Text(
-                text = "Heading",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
-            )
-            HeadingToggleSetting(appSettingsManager)
-            SpeedToggleSetting(appSettingsManager)
-            MagneticFieldToggleSetting(appSettingsManager)
+            Section("Heading") {
+                HeadingToggleSetting(appSettingsManager)
+                MagneticFieldToggleSetting(appSettingsManager)
+                SpeedToggleSetting(appSettingsManager)
+            }
+
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
             // GeoLocation Section
-            Text(
-                text = "GeoLocation",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
-            )
-            LatitudeToggleSetting(appSettingsManager)
-            LongitudeToggleSetting(appSettingsManager)
-            AltitudeToggleSetting(appSettingsManager)
-            AddressToggleSetting(appSettingsManager)
+            Section("Geolocation") {
+                LatitudeToggleSetting(appSettingsManager)
+                LongitudeToggleSetting(appSettingsManager)
+                AltitudeToggleSetting(appSettingsManager)
+                AddressToggleSetting(appSettingsManager)
+            }
         }
+    }
+}
+
+@Composable
+fun Section(
+    title: String,
+    style: TextStyle = MaterialTheme.typography.titleMedium,
+    titleModifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.padding(vertical = 8.dp),
+    content: @Composable () -> Unit
+) {
+    Column(modifier) {
+        Text(
+            text = title,
+            style = style,
+            modifier = titleModifier
+        )
+        content()
     }
 }
 
