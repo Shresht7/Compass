@@ -14,7 +14,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class CompassViewModel(application: Application) : AndroidViewModel(application) {
+import com.shresht7.compass.settings.AppSettingsManager
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.catch
+
+class CompassViewModel(application: Application, appSettingsManager: AppSettingsManager) : AndroidViewModel(application) {
     private val compassSensor = CompassSensor(application)
     private val locationManager = LocationManager(application)
 
@@ -22,16 +26,21 @@ class CompassViewModel(application: Application) : AndroidViewModel(application)
     val compassState: StateFlow<CompassState> = _compassState.asStateFlow()
 
     init {
-        startCompass()
-    }
-
-    private fun startCompass() {
-        compassSensor.getCompassFlow().onEach { compassData ->
-            _compassState.value = _compassState.value.copy(
-                azimuth = compassData.azimuth,
-                magneticField = compassData.magneticField
-            )
-        }.launchIn(viewModelScope)
+        appSettingsManager.sensorDelay
+            .flatMapLatest { delay ->
+                compassSensor.getCompassFlow(delay)
+            }
+            .onEach { compassData ->
+                _compassState.value = _compassState.value.copy(
+                    azimuth = compassData.azimuth,
+                    magneticField = compassData.magneticField
+                )
+            }
+            .catch { e ->
+                // Handle the exception, e.g. by logging it or showing an error message
+                e.printStackTrace()
+            }
+            .launchIn(viewModelScope)
     }
 
     @RequiresPermission(anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION])

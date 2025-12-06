@@ -11,6 +11,12 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+/**
+ * A data class that holds the compass sensor readings.
+ *
+ * @property azimuth The direction of the magnetic north in degrees, where 0° is North, 90° is East, 180° is South, and 270° is West.
+ * @property magneticField The strength of the geomagnetic field in micro-Tesla (μT).
+ */
 data class CompassData(val azimuth: Float = 0f, val magneticField: Float = 0f)
 
 class CompassSensor(context: Context) {
@@ -21,9 +27,14 @@ class CompassSensor(context: Context) {
     private val rotationMatrix = FloatArray(9)
     private val orientationAngles = FloatArray(3)
 
-    fun getCompassFlow(): Flow<CompassData> = callbackFlow {
+    fun getCompassFlow(sensorDelay: Int): Flow<CompassData> = callbackFlow {
         val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         val magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+
+        if (accelerometer == null || magnetometer == null) {
+            close(IllegalStateException("Accelerometer or Magnetometer not available"))
+            return@callbackFlow
+        }
 
         val listener = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent) {
@@ -54,8 +65,8 @@ class CompassSensor(context: Context) {
             override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
         }
 
-        sensorManager.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_UI)
-        sensorManager.registerListener(listener, magnetometer, SensorManager.SENSOR_DELAY_UI)
+        sensorManager.registerListener(listener, accelerometer, sensorDelay)
+        sensorManager.registerListener(listener, magnetometer, sensorDelay)
 
         awaitClose {
             sensorManager.unregisterListener(listener)
