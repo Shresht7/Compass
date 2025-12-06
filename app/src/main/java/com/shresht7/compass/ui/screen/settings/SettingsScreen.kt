@@ -38,9 +38,9 @@ private val SLIDER_TO_SENSOR_DELAY_MAP = mapOf(
 // Define the mapping between SensorManager constants and display names
 private val SENSOR_DELAY_TO_DISPLAY_NAME_MAP = mapOf(
     SensorManager.SENSOR_DELAY_FASTEST to "Fastest",
-    SensorManager.SENSOR_DELAY_GAME to "Game",
+    SensorManager.SENSOR_DELAY_GAME to "Fast",
     SensorManager.SENSOR_DELAY_NORMAL to "Normal",
-    SensorManager.SENSOR_DELAY_UI to "UI"
+    SensorManager.SENSOR_DELAY_UI to "Slow"
 )
 
 /**
