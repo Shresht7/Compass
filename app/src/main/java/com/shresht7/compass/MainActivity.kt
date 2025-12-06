@@ -7,13 +7,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.shresht7.compass.navigation.Screen
 import com.shresht7.compass.ui.screen.CompassScreen
+import com.shresht7.compass.ui.screen.SettingsScreen
 import com.shresht7.compass.ui.theme.CompassTheme
 import com.shresht7.compass.viewModel.CompassViewModel
 
@@ -34,14 +34,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         viewModel = CompassViewModel(application)
+
         setContent {
             CompassTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding)) {
-                        CompassScreen(viewModel)
+                val backStack = rememberNavBackStack(Screen.Home)
+                NavDisplay(
+                    backStack,
+                    entryProvider = entryProvider {
+                        entry<Screen.Home> { CompassScreen(viewModel, backStack) }
+                        entry<Screen.Settings> { SettingsScreen(backStack) }
                     }
-                }
+                )
             }
         }
 
