@@ -35,6 +35,8 @@ class AppSettingsManager(private val context: Context) {
     private val locationEnabledKey = booleanPreferencesKey("location_enabled")
     private val latitudeEnabledKey = booleanPreferencesKey("latitude_enabled")
     private val longitudeEnabledKey = booleanPreferencesKey("longitude_enabled")
+    private val altitudeEnabledKey = booleanPreferencesKey("altitude_enabled")
+    private val addressEnabledKey = booleanPreferencesKey("address_enabled")
 
     val sensorDelay: Flow<Int> = context.dataStore.data
         .map { preferences ->
@@ -54,6 +56,16 @@ class AppSettingsManager(private val context: Context) {
     val longitudeEnabled: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[longitudeEnabledKey] ?: true // Default to true
+        }
+
+    val altitudeEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[altitudeEnabledKey] ?: true // Default to true
+        }
+
+    val addressEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[addressEnabledKey] ?: true // Default to true
         }
 
     suspend fun setSensorDelay(delay: Int) {
@@ -77,6 +89,18 @@ class AppSettingsManager(private val context: Context) {
     suspend fun setLongitudeEnabled(enabled: Boolean) {
         context.dataStore.edit { settings ->
             settings[longitudeEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setAltitudeEnabled(enabled: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[altitudeEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setAddressEnabled(enabled: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[addressEnabledKey] = enabled
         }
     }
 }
