@@ -1,4 +1,4 @@
-package com.shresht7.compass.ui.screen.settings
+package com.shresht7.compass.ui.screen.settings.heading
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -16,9 +16,9 @@ import com.shresht7.compass.settings.AppSettingsManager
 import kotlinx.coroutines.launch
 
 @Composable
-fun SpeedToggleSetting(appSettingsManager: AppSettingsManager) {
+fun HeadingToggleSetting(appSettingsManager: AppSettingsManager) {
     val scope = rememberCoroutineScope()
-    val isEnabled by appSettingsManager.speedDisplayEnabled.collectAsState(initial = true)
+    val isEnabled by appSettingsManager.headingDisplayEnabled.collectAsState(initial = true)
 
     Row(
         modifier = Modifier
@@ -26,13 +26,13 @@ fun SpeedToggleSetting(appSettingsManager: AppSettingsManager) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Display Speed",
+            text = "Display Heading",
             modifier = Modifier.weight(1f)
         )
         Switch(
             checked = isEnabled,
             onCheckedChange = { checked ->
-                scope.launch { appSettingsManager.setSpeedDisplayEnabled(checked) }
+                scope.launch { appSettingsManager.setHeadingDisplayEnabled(checked) }
             }
         )
     }
@@ -40,14 +40,14 @@ fun SpeedToggleSetting(appSettingsManager: AppSettingsManager) {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewSpeedToggleSetting() {
+fun PreviewHeadingToggleSetting() {
     Row(
         modifier = Modifier
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Display Speed",
+            text = "Display Heading",
             modifier = Modifier.weight(1f)
         )
         Switch(

@@ -1,4 +1,4 @@
-package com.shresht7.compass.ui.screen.settings
+package com.shresht7.compass.ui.screen.settings.sensors
 
 import android.hardware.SensorManager
 import androidx.compose.foundation.layout.Arrangement

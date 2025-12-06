@@ -1,4 +1,4 @@
-package com.shresht7.compass.ui.screen.settings
+package com.shresht7.compass.ui.screen.settings.geolocation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -17,14 +17,14 @@ import com.shresht7.compass.settings.AppSettingsManager
 import kotlinx.coroutines.launch
 
 /**
- * A composable that provides a UI for toggling longitude display.
+ * A composable that provides a UI for toggling altitude display.
  *
  * @param appSettingsManager The manager for application settings.
  */
 @Composable
-fun LongitudeToggleSetting(appSettingsManager: AppSettingsManager) {
+fun AltitudeToggleSetting(appSettingsManager: AppSettingsManager) {
     val scope = rememberCoroutineScope()
-    val longitudeEnabled by appSettingsManager.longitudeEnabled.collectAsState(initial = true)
+    val altitudeEnabled by appSettingsManager.altitudeEnabled.collectAsState(initial = true)
 
     Row(
         modifier = Modifier
@@ -33,12 +33,12 @@ fun LongitudeToggleSetting(appSettingsManager: AppSettingsManager) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("Show Longitude")
+        Text("Show Altitude")
         Switch(
-            checked = longitudeEnabled,
+            checked = altitudeEnabled,
             onCheckedChange = { enabled ->
                 scope.launch {
-                    appSettingsManager.setLongitudeEnabled(enabled)
+                    appSettingsManager.setAltitudeEnabled(enabled)
                 }
             }
         )

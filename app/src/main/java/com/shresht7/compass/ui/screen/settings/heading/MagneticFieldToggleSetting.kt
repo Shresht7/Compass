@@ -1,4 +1,4 @@
-package com.shresht7.compass.ui.screen.settings
+package com.shresht7.compass.ui.screen.settings.heading
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

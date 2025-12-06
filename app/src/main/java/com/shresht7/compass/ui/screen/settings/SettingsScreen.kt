@@ -14,6 +14,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.shresht7.compass.settings.AppSettingsManager
 import com.shresht7.compass.ui.components.BackButton
+import com.shresht7.compass.ui.screen.settings.geolocation.AddressToggleSetting
+import com.shresht7.compass.ui.screen.settings.geolocation.AltitudeToggleSetting
+import com.shresht7.compass.ui.screen.settings.geolocation.LatitudeToggleSetting
+import com.shresht7.compass.ui.screen.settings.geolocation.LongitudeToggleSetting
+import com.shresht7.compass.ui.screen.settings.heading.HeadingToggleSetting
+import com.shresht7.compass.ui.screen.settings.heading.MagneticFieldToggleSetting
+import com.shresht7.compass.ui.screen.settings.heading.SpeedToggleSetting
+import com.shresht7.compass.ui.screen.settings.sensors.SensorDelaySetting
 
 /**
  * The settings screen of the application.
