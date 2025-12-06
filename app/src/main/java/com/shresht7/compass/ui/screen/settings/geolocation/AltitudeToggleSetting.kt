@@ -27,13 +27,11 @@ fun AltitudeToggleSetting(appSettingsManager: AppSettingsManager) {
     val altitudeEnabled by appSettingsManager.altitudeEnabled.collectAsState(initial = true)
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("Show Altitude")
+        Text("Display Altitude")
         Switch(
             checked = altitudeEnabled,
             onCheckedChange = { enabled ->

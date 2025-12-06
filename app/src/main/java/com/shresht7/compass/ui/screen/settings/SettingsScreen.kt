@@ -1,6 +1,6 @@
 package com.shresht7.compass.ui.screen.settings
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -59,7 +60,7 @@ fun SettingsScreen(
                 SensorDelaySetting(appSettingsManager)
             }
 
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             // Heading Section
             Section("Heading") {
@@ -68,7 +69,7 @@ fun SettingsScreen(
                 SpeedToggleSetting(appSettingsManager)
             }
 
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             // GeoLocation Section
             Section("Geolocation") {
@@ -84,12 +85,14 @@ fun SettingsScreen(
 @Composable
 fun Section(
     title: String,
-    style: TextStyle = MaterialTheme.typography.titleMedium,
-    titleModifier: Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.titleLarge,
+    titleModifier: Modifier = Modifier.padding(bottom = 8.dp),
     modifier: Modifier = Modifier.padding(vertical = 8.dp),
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(4.dp),
     content: @Composable () -> Unit
 ) {
-    Column(modifier) {
+    Column(modifier, horizontalAlignment = horizontalAlignment, verticalArrangement = verticalArrangement) {
         Text(
             text = title,
             style = style,

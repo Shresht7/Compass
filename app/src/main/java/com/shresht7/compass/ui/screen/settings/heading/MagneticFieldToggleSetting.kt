@@ -1,6 +1,7 @@
 package com.shresht7.compass.ui.screen.settings.heading
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -21,8 +22,7 @@ fun MagneticFieldToggleSetting(appSettingsManager: AppSettingsManager) {
     val isEnabled by appSettingsManager.magneticFieldDisplayEnabled.collectAsState(initial = true)
 
     Row(
-        modifier = Modifier
-            .padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(

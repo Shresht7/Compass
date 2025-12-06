@@ -27,13 +27,11 @@ fun AddressToggleSetting(appSettingsManager: AppSettingsManager) {
     val addressEnabled by appSettingsManager.addressEnabled.collectAsState(initial = true)
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("Show Address")
+        Text("Display Address")
         Switch(
             checked = addressEnabled,
             onCheckedChange = { enabled ->

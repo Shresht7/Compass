@@ -27,13 +27,11 @@ fun LatitudeToggleSetting(appSettingsManager: AppSettingsManager) {
     val latitudeEnabled by appSettingsManager.latitudeEnabled.collectAsState(initial = true)
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("Show Latitude")
+        Text("Display Latitude")
         Switch(
             checked = latitudeEnabled,
             onCheckedChange = { enabled ->

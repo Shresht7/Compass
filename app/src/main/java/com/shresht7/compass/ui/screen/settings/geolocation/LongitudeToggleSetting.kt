@@ -27,13 +27,11 @@ fun LongitudeToggleSetting(appSettingsManager: AppSettingsManager) {
     val longitudeEnabled by appSettingsManager.longitudeEnabled.collectAsState(initial = true)
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("Show Longitude")
+        Text("Display Longitude")
         Switch(
             checked = longitudeEnabled,
             onCheckedChange = { enabled ->
