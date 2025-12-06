@@ -27,6 +27,22 @@ import androidx.compose.material3.Switch
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 
+// Define the mapping between slider position (0-3) and SensorManager constants
+private val SLIDER_TO_SENSOR_DELAY_MAP = mapOf(
+    0 to SensorManager.SENSOR_DELAY_UI,
+    1 to SensorManager.SENSOR_DELAY_NORMAL,
+    2 to SensorManager.SENSOR_DELAY_GAME,
+    3 to SensorManager.SENSOR_DELAY_FASTEST,
+)
+
+// Define the mapping between SensorManager constants and display names
+private val SENSOR_DELAY_TO_DISPLAY_NAME_MAP = mapOf(
+    SensorManager.SENSOR_DELAY_FASTEST to "Fastest",
+    SensorManager.SENSOR_DELAY_GAME to "Game",
+    SensorManager.SENSOR_DELAY_NORMAL to "Normal",
+    SensorManager.SENSOR_DELAY_UI to "UI"
+)
+
 /**
  * The settings screen of the application.
  *
@@ -73,22 +89,6 @@ fun SensorDelaySetting(appSettingsManager: AppSettingsManager) {
     val scope = rememberCoroutineScope()
     val sensorDelay by appSettingsManager.sensorDelay.collectAsState(initial = SensorManager.SENSOR_DELAY_FASTEST)
     
-    // Define the mapping between slider position (0-3) and SensorManager constants
-    val sliderToSensorDelay = mapOf(
-        0 to SensorManager.SENSOR_DELAY_FASTEST,
-        1 to SensorManager.SENSOR_DELAY_GAME,
-        2 to SensorManager.SENSOR_DELAY_NORMAL,
-        3 to SensorManager.SENSOR_DELAY_UI
-    )
-
-    // Define the mapping between SensorManager constants and display names
-    val sensorDelayToDisplayName = mapOf(
-        SensorManager.SENSOR_DELAY_FASTEST to "Fastest",
-        SensorManager.SENSOR_DELAY_GAME to "Game",
-        SensorManager.SENSOR_DELAY_NORMAL to "Normal",
-        SensorManager.SENSOR_DELAY_UI to "UI"
-    )
-
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -100,13 +100,13 @@ fun SensorDelaySetting(appSettingsManager: AppSettingsManager) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Sensor Delay")
-            Text(sensorDelayToDisplayName[sensorDelay] ?: "Normal") // Display current delay name
+            Text(SENSOR_DELAY_TO_DISPLAY_NAME_MAP[sensorDelay] ?: "Normal") // Display current delay name
         }
         Slider(
-            value = sliderToSensorDelay.entries.find { it.value == sensorDelay }?.key?.toFloat() ?: 2f,
+            value = SLIDER_TO_SENSOR_DELAY_MAP.entries.find { it.value == sensorDelay }?.key?.toFloat() ?: 2f,
             onValueChange = { sliderValue ->
                 scope.launch {
-                    val newDelay = sliderToSensorDelay[sliderValue.toInt()] ?: SensorManager.SENSOR_DELAY_NORMAL
+                    val newDelay = SLIDER_TO_SENSOR_DELAY_MAP[sliderValue.toInt()] ?: SensorManager.SENSOR_DELAY_NORMAL
                     appSettingsManager.setSensorDelay(newDelay)
                 }
             },
