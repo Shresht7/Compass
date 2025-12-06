@@ -20,17 +20,24 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 /**
- * The ViewModel for the compass screen.
+ * ViewModel for the compass screen.
  *
- * This class is responsible for managing the state of the compass screen, including the
- * compass data, location information, and sensor delay settings. It interacts with the
- * `CompassSensor`, `LocationManager`, and `AppSettingsManager` to keep the state up-to-date.
+ * This class serves as the central point for managing the UI state and data for the compass feature.
+ * It integrates data from various sources:
+ *  - [CompassSensor]: Provides azimuth (heading) and magnetic field strength.
+ *  - [LocationManager]: Provides geographical location data (latitude, longitude, altitude, speed).
+ *  - [AppSettingsManager]: Manages user preferences for sensor update speed and visibility of
+ *    different data points on the screen.
  *
- * @param application The application instance.
- * @param appSettingsManager The manager for application settings.
+ * The ViewModel exposes the combined state through [compassState] and individual display
+ * preferences as separate [StateFlow]s, which the UI can observe to stay up-to-date.
+ *
+ * @param application The application context, required for accessing system services like sensors
+ *                    and location.
+ * @param appSettingsManager An instance of [AppSettingsManager] to observe user settings.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-class CompassViewModel(application: Application, private val appSettingsManager: AppSettingsManager) : AndroidViewModel(application) {
+class CompassViewModel(application: Application, val appSettingsManager: AppSettingsManager) : AndroidViewModel(application) {
     private val compassSensor = CompassSensor(application)
     private val locationManager = LocationManager(application)
 
@@ -50,6 +57,15 @@ class CompassViewModel(application: Application, private val appSettingsManager:
 
     private val _addressEnabled = MutableStateFlow(true)
     val addressEnabled: StateFlow<Boolean> = _addressEnabled.asStateFlow()
+
+    private val _headingDisplayEnabled = MutableStateFlow(true)
+    val headingDisplayEnabled: StateFlow<Boolean> = _headingDisplayEnabled.asStateFlow()
+
+    private val _magneticFieldDisplayEnabled = MutableStateFlow(true)
+    val magneticFieldDisplayEnabled: StateFlow<Boolean> = _magneticFieldDisplayEnabled.asStateFlow()
+
+    private val _speedDisplayEnabled = MutableStateFlow(true)
+    val speedDisplayEnabled: StateFlow<Boolean> = _speedDisplayEnabled.asStateFlow()
 
     init {
         // Observe sensor delay and update compass flow
@@ -87,6 +103,18 @@ class CompassViewModel(application: Application, private val appSettingsManager:
         appSettingsManager.addressEnabled
             .onEach { enabled -> _addressEnabled.value = enabled }
             .launchIn(viewModelScope)
+
+        appSettingsManager.headingDisplayEnabled
+            .onEach { enabled -> _headingDisplayEnabled.value = enabled }
+            .launchIn(viewModelScope)
+
+        appSettingsManager.magneticFieldDisplayEnabled
+            .onEach { enabled -> _magneticFieldDisplayEnabled.value = enabled }
+            .launchIn(viewModelScope)
+
+        appSettingsManager.speedDisplayEnabled
+            .onEach { enabled -> _speedDisplayEnabled.value = enabled }
+            .launchIn(viewModelScope)
     }
 
     @RequiresPermission(anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION])
@@ -102,6 +130,6 @@ class CompassViewModel(application: Application, private val appSettingsManager:
         locationUpdatesJob?.cancel()
         locationUpdatesJob = null
         _compassState.value =
-            _compassState.value.copy(location = com.shresht7.compass.sensor.Location()) // Clear location data
+            _compassState.value.copy(location = com.shresht7.compass.sensor.Location())
     }
 }

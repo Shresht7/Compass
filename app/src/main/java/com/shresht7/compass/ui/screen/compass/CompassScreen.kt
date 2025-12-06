@@ -18,11 +18,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import com.shresht7.compass.navigation.Screen
 import com.shresht7.compass.sensor.Location
+import com.shresht7.compass.settings.AppSettingsManager
 import com.shresht7.compass.state.CompassState
 import com.shresht7.compass.state.degrees
 import com.shresht7.compass.state.direction
@@ -41,6 +43,9 @@ fun CompassScreen(
     val longitudeEnabled by viewModel.longitudeEnabled.collectAsState()
     val altitudeEnabled by viewModel.altitudeEnabled.collectAsState()
     val addressEnabled by viewModel.addressEnabled.collectAsState()
+    val headingDisplayEnabled by viewModel.headingDisplayEnabled.collectAsState()
+    val magneticFieldDisplayEnabled by viewModel.magneticFieldDisplayEnabled.collectAsState()
+    val speedDisplayEnabled by viewModel.speedDisplayEnabled.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -61,6 +66,9 @@ fun CompassScreen(
                 longitudeEnabled = longitudeEnabled,
                 altitudeEnabled = altitudeEnabled,
                 addressEnabled = addressEnabled,
+                headingDisplayEnabled = headingDisplayEnabled,
+                magneticFieldDisplayEnabled = magneticFieldDisplayEnabled,
+                speedDisplayEnabled = speedDisplayEnabled,
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -73,6 +81,9 @@ fun CompassView(
     longitudeEnabled: Boolean = true,
     altitudeEnabled: Boolean = true,
     addressEnabled: Boolean = true,
+    headingDisplayEnabled: Boolean = true,
+    magneticFieldDisplayEnabled: Boolean = true,
+    speedDisplayEnabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -85,6 +96,9 @@ fun CompassView(
             direction = compassState.direction(),
             speed = compassState.speed(),
             magneticField = compassState.magneticField(),
+            headingDisplayEnabled = headingDisplayEnabled,
+            magneticFieldDisplayEnabled = magneticFieldDisplayEnabled,
+            speedDisplayEnabled = speedDisplayEnabled,
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -130,11 +144,8 @@ fun CompassViewPreview() {
         compassState = CompassState(
             azimuth = 10f,
             magneticField = 49.1f,
-            location = previewLocation),
-        latitudeEnabled = true,
-        longitudeEnabled = true,
-        altitudeEnabled = true,
-        addressEnabled = true
+            location = previewLocation
+        ),
     )
 }
 

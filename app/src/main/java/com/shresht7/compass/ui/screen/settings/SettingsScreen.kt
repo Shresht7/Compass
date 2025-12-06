@@ -40,6 +40,11 @@ fun SettingsScreen(backStack: NavBackStack<NavKey>, appSettingsManager: AppSetti
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
             SensorDelaySetting(appSettingsManager)
+
+            HeadingToggleSetting(appSettingsManager)
+            SpeedToggleSetting(appSettingsManager)
+            MagneticFieldToggleSetting(appSettingsManager)
+
             LatitudeToggleSetting(appSettingsManager)
             LongitudeToggleSetting(appSettingsManager)
             AltitudeToggleSetting(appSettingsManager)
@@ -51,23 +56,17 @@ fun SettingsScreen(backStack: NavBackStack<NavKey>, appSettingsManager: AppSetti
 @Preview(showBackground = true)
 @Composable
 fun SettingsScreenPreview() {
-    // Preview for SettingsScreen would require mocking NavBackStack and AppSettingsManager
-    // For simplicity, we can preview individual settings components
+    val appSettingsManager = AppSettingsManager(LocalContext.current)
     Column {
-        SensorDelaySetting(appSettingsManager = AppSettingsManager(
-            LocalContext.current
-        ))
-        LatitudeToggleSetting(appSettingsManager = AppSettingsManager(
-            LocalContext.current
-        ))
-        LongitudeToggleSetting(appSettingsManager = AppSettingsManager(
-            LocalContext.current
-        ))
-        AltitudeToggleSetting(appSettingsManager = AppSettingsManager(
-            LocalContext.current
-        ))
-        AddressToggleSetting(appSettingsManager = AppSettingsManager(
-            LocalContext.current
-        ))
+        SensorDelaySetting(appSettingsManager)
+
+        HeadingToggleSetting(appSettingsManager)
+        SpeedToggleSetting(appSettingsManager)
+        MagneticFieldToggleSetting(appSettingsManager)
+
+        LatitudeToggleSetting(appSettingsManager)
+        LongitudeToggleSetting(appSettingsManager)
+        AltitudeToggleSetting(appSettingsManager)
+        AddressToggleSetting(appSettingsManager)
     }
 }

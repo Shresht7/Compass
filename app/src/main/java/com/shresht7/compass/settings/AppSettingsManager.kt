@@ -36,6 +36,10 @@ class AppSettingsManager(private val context: Context) {
     private val longitudeEnabledKey = booleanPreferencesKey("longitude_enabled")
     private val altitudeEnabledKey = booleanPreferencesKey("altitude_enabled")
     private val addressEnabledKey = booleanPreferencesKey("address_enabled")
+    private val headingEnabledKey = booleanPreferencesKey("heading_enabled")
+    private val magneticFieldDisplayEnabledKey = booleanPreferencesKey("magnetic_field_enabled")
+    private val speedEnabledKey = booleanPreferencesKey("speed_enabled")
+
 
     val sensorDelay: Flow<Int> = context.dataStore.data
         .map { preferences ->
@@ -60,6 +64,21 @@ class AppSettingsManager(private val context: Context) {
     val addressEnabled: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[addressEnabledKey] ?: true // Default to true
+        }
+
+    val headingDisplayEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[headingEnabledKey] ?: true // Default to true
+        }
+
+    val magneticFieldDisplayEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[magneticFieldDisplayEnabledKey] ?: true // Default to true
+        }
+
+    val speedDisplayEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[speedEnabledKey] ?: true // Default to true
         }
 
     suspend fun setSensorDelay(delay: Int) {
@@ -89,6 +108,24 @@ class AppSettingsManager(private val context: Context) {
     suspend fun setAddressEnabled(enabled: Boolean) {
         context.dataStore.edit { settings ->
             settings[addressEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setHeadingDisplayEnabled(enabled: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[headingEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setMagneticFieldDisplayEnabled(enabled: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[magneticFieldDisplayEnabledKey] = enabled
+        }
+    }
+
+    suspend fun setSpeedDisplayEnabled(enabled: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[speedEnabledKey] = enabled
         }
     }
 }

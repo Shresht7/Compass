@@ -21,6 +21,9 @@ fun CompassHeading(
     direction: String,
     speed: String,
     magneticField: String,
+    headingDisplayEnabled: Boolean = true,
+    magneticFieldDisplayEnabled: Boolean = true,
+    speedDisplayEnabled: Boolean = true,
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(8.dp)
@@ -30,15 +33,30 @@ fun CompassHeading(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Row(
-            verticalAlignment = verticalAlignment,
-            horizontalArrangement = horizontalArrangement,
-        ) {
-            Text(text = "$degrees $direction", style = MaterialTheme.typography.displaySmall)
-            VerticalDivider(thickness = 2.dp, modifier = Modifier.height(48.dp))
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = speed, style = MaterialTheme.typography.titleSmall)
-                Text(text = magneticField, style = MaterialTheme.typography.titleSmall)
+        if (!headingDisplayEnabled && !magneticFieldDisplayEnabled && !speedDisplayEnabled) {
+            Text(text = "No heading data enabled", style = MaterialTheme.typography.displaySmall)
+        } else {
+            Row(
+                verticalAlignment = verticalAlignment,
+                horizontalArrangement = horizontalArrangement,
+            ) {
+                if (headingDisplayEnabled) {
+                    Text(text = "$degrees $direction", style = MaterialTheme.typography.displaySmall)
+                }
+
+                val showDivider = headingDisplayEnabled && (speedDisplayEnabled || magneticFieldDisplayEnabled)
+                if (showDivider) {
+                    VerticalDivider(thickness = 2.dp, modifier = Modifier.height(48.dp))
+                }
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    if (speedDisplayEnabled) {
+                        Text(text = speed, style = MaterialTheme.typography.titleSmall)
+                    }
+                    if (magneticFieldDisplayEnabled) {
+                        Text(text = magneticField, style = MaterialTheme.typography.titleSmall)
+                    }
+                }
             }
         }
     }
