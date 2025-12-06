@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                     backStack,
                     entryProvider = entryProvider {
                         entry<Screen.Home> { CompassScreen(viewModel, backStack) }
-                        entry<Screen.Settings> { SettingsScreen(backStack, appSettingsManager) }
+                        entry<Screen.Settings> { SettingsScreen(appSettingsManager, onNavBack = { backStack.removeLastOrNull() }) }
                     }
                 )
             }
