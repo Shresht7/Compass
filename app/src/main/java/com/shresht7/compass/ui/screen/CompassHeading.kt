@@ -26,7 +26,7 @@ fun CompassHeading(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(8.dp)
 ) {
     Column(
-        modifier = modifier.padding(16.dp, top = 32.dp),
+        modifier = modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
