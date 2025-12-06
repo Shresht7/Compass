@@ -23,6 +23,9 @@ import kotlinx.coroutines.launch
 import android.hardware.SensorManager
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.Switch
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 
 /**
  * The settings screen of the application.
@@ -48,6 +51,10 @@ fun SettingsScreen(backStack: NavBackStack<NavKey>, appSettingsManager: AppSetti
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
             SensorDelaySetting(appSettingsManager)
+            LatitudeToggleSetting(appSettingsManager)
+            LongitudeToggleSetting(appSettingsManager)
+            AltitudeToggleSetting(appSettingsManager)
+            AddressToggleSetting(appSettingsManager)
         }
     }
 }
@@ -106,5 +113,147 @@ fun SensorDelaySetting(appSettingsManager: AppSettingsManager) {
             valueRange = 0f..3f,
             steps = 2
         )
+    }
+}
+
+
+
+/**
+ * A composable that provides a UI for toggling latitude display.
+ *
+ * @param appSettingsManager The manager for application settings.
+ */
+@Composable
+fun LatitudeToggleSetting(appSettingsManager: AppSettingsManager) {
+    val scope = rememberCoroutineScope()
+    val latitudeEnabled by appSettingsManager.latitudeEnabled.collectAsState(initial = true)
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text("Show Latitude")
+        Switch(
+            checked = latitudeEnabled,
+            onCheckedChange = { enabled ->
+                scope.launch {
+                    appSettingsManager.setLatitudeEnabled(enabled)
+                }
+            }
+        )
+    }
+}
+
+/**
+ * A composable that provides a UI for toggling longitude display.
+ *
+ * @param appSettingsManager The manager for application settings.
+ */
+@Composable
+fun LongitudeToggleSetting(appSettingsManager: AppSettingsManager) {
+    val scope = rememberCoroutineScope()
+    val longitudeEnabled by appSettingsManager.longitudeEnabled.collectAsState(initial = true)
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text("Show Longitude")
+        Switch(
+            checked = longitudeEnabled,
+            onCheckedChange = { enabled ->
+                scope.launch {
+                    appSettingsManager.setLongitudeEnabled(enabled)
+                }
+            }
+        )
+    }
+}
+
+/**
+ * A composable that provides a UI for toggling altitude display.
+ *
+ * @param appSettingsManager The manager for application settings.
+ */
+@Composable
+fun AltitudeToggleSetting(appSettingsManager: AppSettingsManager) {
+    val scope = rememberCoroutineScope()
+    val altitudeEnabled by appSettingsManager.altitudeEnabled.collectAsState(initial = true)
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text("Show Altitude")
+        Switch(
+            checked = altitudeEnabled,
+            onCheckedChange = { enabled ->
+                scope.launch {
+                    appSettingsManager.setAltitudeEnabled(enabled)
+                }
+            }
+        )
+    }
+}
+
+/**
+ * A composable that provides a UI for toggling address display.
+ *
+ * @param appSettingsManager The manager for application settings.
+ */
+@Composable
+fun AddressToggleSetting(appSettingsManager: AppSettingsManager) {
+    val scope = rememberCoroutineScope()
+    val addressEnabled by appSettingsManager.addressEnabled.collectAsState(initial = true)
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text("Show Address")
+        Switch(
+            checked = addressEnabled,
+            onCheckedChange = { enabled ->
+                scope.launch {
+                    appSettingsManager.setAddressEnabled(enabled)
+                }
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SettingsScreenPreview() {
+    // Preview for SettingsScreen would require mocking NavBackStack and AppSettingsManager
+    // For simplicity, we can preview individual settings components
+    Column {
+        SensorDelaySetting(appSettingsManager = AppSettingsManager(
+            LocalContext.current
+        ))
+        LatitudeToggleSetting(appSettingsManager = AppSettingsManager(
+            LocalContext.current
+        ))
+        LongitudeToggleSetting(appSettingsManager = AppSettingsManager(
+            LocalContext.current
+        ))
+        AltitudeToggleSetting(appSettingsManager = AppSettingsManager(
+            LocalContext.current
+        ))
+        AddressToggleSetting(appSettingsManager = AppSettingsManager(
+            LocalContext.current
+        ))
     }
 }

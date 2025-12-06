@@ -21,6 +21,10 @@ fun CompassLocation(
     longitude: Double,
     altitude: Double?,
     address: String?,
+    latitudeEnabled: Boolean,
+    longitudeEnabled: Boolean,
+    altitudeEnabled: Boolean,
+    addressEnabled: Boolean,
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.SpaceEvenly,
@@ -34,21 +38,25 @@ fun CompassLocation(
             horizontalArrangement = horizontalArrangement,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Latitude", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.secondary)
-                Text(
-                    text = String.format("%.2f°", latitude),
-                    style = MaterialTheme.typography.headlineSmall
-                )
+            if (latitudeEnabled) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "Latitude", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.secondary)
+                    Text(
+                        text = String.format("%.2f°", latitude),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                }
             }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Longitude", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.secondary)
-                Text(
-                    text = String.format("%.2f°", longitude),
-                    style = MaterialTheme.typography.headlineSmall
-                )
+            if (longitudeEnabled) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "Longitude", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.secondary)
+                    Text(
+                        text = String.format("%.2f°", longitude),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                }
             }
-            if (altitude != null) {
+            if (altitudeEnabled && altitude != null) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "Altitude", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.secondary)
                     Text(
@@ -59,7 +67,7 @@ fun CompassLocation(
             }
         }
 
-        if (address != null) {
+        if (addressEnabled && address != null) {
             Box(modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp)) {
                 Text(
                     text = address,
@@ -80,6 +88,10 @@ fun CompassLocationPreview() {
         latitude = 40.7128,
         longitude = -74.0060,
         altitude = 121.4,
-        address = "New York, NY, USA"
+        address = "New York, NY, USA",
+        latitudeEnabled = true,
+        longitudeEnabled = true,
+        altitudeEnabled = true,
+        addressEnabled = true
     )
 }

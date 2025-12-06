@@ -37,6 +37,10 @@ fun CompassScreen(
     backStack: NavBackStack<NavKey>
 ) {
     val compassState by viewModel.compassState.collectAsState()
+    val latitudeEnabled by viewModel.latitudeEnabled.collectAsState()
+    val longitudeEnabled by viewModel.longitudeEnabled.collectAsState()
+    val altitudeEnabled by viewModel.altitudeEnabled.collectAsState()
+    val addressEnabled by viewModel.addressEnabled.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -51,13 +55,24 @@ fun CompassScreen(
             )
         }
     ) { innerPadding ->
-            CompassView(compassState = compassState, modifier = Modifier.padding(innerPadding))
+            CompassView(
+                compassState = compassState,
+                latitudeEnabled = latitudeEnabled,
+                longitudeEnabled = longitudeEnabled,
+                altitudeEnabled = altitudeEnabled,
+                addressEnabled = addressEnabled,
+                modifier = Modifier.padding(innerPadding)
+            )
         }
 }
 
 @Composable
 fun CompassView(
     compassState: CompassState,
+    latitudeEnabled: Boolean = true,
+    longitudeEnabled: Boolean = true,
+    altitudeEnabled: Boolean = true,
+    addressEnabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -92,6 +107,10 @@ fun CompassView(
             longitude = compassState.location.longitude,
             altitude = if (compassState.location.hasAltitude) compassState.location.altitude else null,
             address = compassState.location.address,
+            latitudeEnabled = latitudeEnabled,
+            longitudeEnabled = longitudeEnabled,
+            altitudeEnabled = altitudeEnabled,
+            addressEnabled = addressEnabled,
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -107,6 +126,15 @@ fun CompassViewPreview() {
         hasAltitude = true,
         altitude = 121.4
     )
-    CompassView(compassState = CompassState(azimuth = 10f, magneticField = 49.1f, location = previewLocation))
+    CompassView(
+        compassState = CompassState(
+            azimuth = 10f,
+            magneticField = 49.1f,
+            location = previewLocation),
+        latitudeEnabled = true,
+        longitudeEnabled = true,
+        altitudeEnabled = true,
+        addressEnabled = true
+    )
 }
 
