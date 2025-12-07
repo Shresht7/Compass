@@ -3,10 +3,10 @@
     android:height="108dp"
     android:viewportWidth="92"
     android:viewportHeight="92">
-  <group android:scaleX="0.61285716"
-      android:scaleY="0.61285716"
-      android:translateX="17.80857"
-      android:translateY="17.80857">
+  <group android:scaleX="0.429"
+      android:scaleY="0.429"
+      android:translateX="26.266"
+      android:translateY="26.266">
     <group>
       <clip-path
           android:pathData="M0,0h92v92h-92z"/>
@@ -16,22 +16,25 @@
           android:fillColor="#00000000"
           android:strokeColor="#FFFFFF"/>
       <path
-          android:pathData="M16.909,75.091L34.893,57.107L46.306,45.694L40.541,45.641L16.909,75.091"
+          android:pathData="M80.69,3.796l7.778,7.778l-77.075,77.075l-7.778,-7.778z"
+          android:fillColor="#130F1C"/>
+      <path
+          android:pathData="M7.504,84.76L31.328,60.936L46.447,45.817L38.775,45.712L7.504,84.76"
           android:fillColor="#B1B2B5"/>
       <path
-          android:pathData="M16.909,75.091L46.306,45.694L46.359,51.459L16.909,75.091"
+          android:pathData="M7.504,84.76L46.447,45.817L46.553,53.49L7.504,84.76"
           android:fillColor="#B1B2B5"/>
       <path
-          android:pathData="M75.091,16.909L57.107,34.893L45.694,46.306L51.459,46.359L75.091,16.909"
+          android:pathData="M84.579,7.685L60.755,31.509L45.636,46.628L53.309,46.734L84.579,7.685"
           android:fillColor="#E71843"/>
       <path
-          android:pathData="M75.091,16.909L45.694,46.306L45.641,40.541L75.091,16.909"
+          android:pathData="M84.579,7.685L45.636,46.628L45.531,38.956L84.579,7.685"
           android:fillColor="#E71843"/>
       <path
-          android:pathData="M44.129,44.129a2.598,2.647 135,1 0,3.743 3.743a2.598,2.647 135,1 0,-3.743 -3.743z"
+          android:pathData="M43.54,43.721a3.442,3.538 135,1 0,5.004 5.004a3.442,3.538 135,1 0,-5.004 -5.004z"
           android:fillColor="#7C7D7F"/>
       <path
-          android:pathData="M44.994,44.994a1.422,1.396 45,1 0,2.011 2.011a1.422,1.396 45,1 0,-2.011 -2.011z"
+          android:pathData="M44.697,44.878a1.901,1.849 45,1 0,2.689 2.689a1.901,1.849 45,1 0,-2.689 -2.689z"
           android:fillColor="#DADADA"/>
     </group>
   </group>
