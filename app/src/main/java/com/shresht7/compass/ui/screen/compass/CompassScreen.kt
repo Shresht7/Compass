@@ -18,13 +18,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import com.shresht7.compass.navigation.Screen
 import com.shresht7.compass.sensor.Location
-import com.shresht7.compass.settings.AppSettingsManager
 import com.shresht7.compass.state.CompassState
 import com.shresht7.compass.state.degrees
 import com.shresht7.compass.state.direction
@@ -77,6 +75,7 @@ fun CompassScreen(
 @Composable
 fun CompassView(
     compassState: CompassState,
+    modifier: Modifier = Modifier,
     latitudeEnabled: Boolean = true,
     longitudeEnabled: Boolean = true,
     altitudeEnabled: Boolean = true,
@@ -84,7 +83,6 @@ fun CompassView(
     headingDisplayEnabled: Boolean = true,
     magneticFieldDisplayEnabled: Boolean = true,
     speedDisplayEnabled: Boolean = true,
-    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,
