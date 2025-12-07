@@ -1,5 +1,11 @@
 # Compass
 
+<div align="center">
+
+![Compass App Logo](./app/src/svg/icon.svg)
+
+</div>
+
 A simple compass app for Android that displays the current heading, speed, and magnetic field strength. The app also provides the device's current location (latitude, longitude, and altitude).
 
 ## Features
