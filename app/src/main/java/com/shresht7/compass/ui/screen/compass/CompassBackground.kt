@@ -4,6 +4,7 @@ import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -21,16 +22,20 @@ import kotlin.math.sin
 @Composable
 fun CompassBackground(
     rotation: Float,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textColor: Color = MaterialTheme.colorScheme.onBackground,
+    innerCircleColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    northMarkColor: Color = MaterialTheme.colorScheme.error,
+    eastMarkColor: Color = MaterialTheme.colorScheme.primary,
+    westMarkColor: Color = MaterialTheme.colorScheme.secondary,
+    southMarkColor: Color = MaterialTheme.colorScheme.tertiary
 ) {
     val textPaint = Paint().apply {
         isAntiAlias = true
-        color = Color.White.toArgb()
+        color = textColor.toArgb()
         textAlign = Paint.Align.CENTER
     }
     val directions = listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW")
-
-    val innerCircleColor = Color.Gray
 
     Canvas(modifier = modifier) {
         val center = this.center
@@ -49,9 +54,11 @@ fun CompassBackground(
                 textPaint.textSize = if (i % 2 == 0) radius * 0.15f else radius * 0.1f
                 textPaint.alpha = if (i % 2 == 0) 255 else 128
                 textPaint.color = when (dir) {
-                    "N" -> Color.Red
-                    "E", "W", "S" -> Color.White
-                    else -> Color.Gray
+                    "N" -> northMarkColor
+                    "E" -> eastMarkColor
+                    "W" -> westMarkColor
+                    "S" -> southMarkColor
+                    else -> textColor
                 }.toArgb()
 
                 val textRadius = radius * 0.95f
