@@ -7,20 +7,40 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
-import com.shresht7.compass.ui.screen.CompassScreen
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.shresht7.compass.settings.AppSettingsManager
+import com.shresht7.compass.navigation.Screen
+import com.shresht7.compass.ui.screen.compass.CompassScreen
+import com.shresht7.compass.ui.screen.settings.SettingsScreen
 import com.shresht7.compass.ui.theme.CompassTheme
 import com.shresht7.compass.viewModel.CompassViewModel
 
 class MainActivity : ComponentActivity() {
 
+    /**
+     * The [CompassViewModel] instance used by this activity to manage and provide compass-related data
+     * to the UI. It's responsible for handling sensor data, location updates, and user settings.
+     */
     private lateinit var viewModel: CompassViewModel
 
+    /**
+     * Manages the application's settings, providing an interface to read and write
+     * user preferences, such as theme, location format, and other display options.
+     * It is initialized in `onCreate` and passed to the relevant ViewModels and Composables
+     * that need access to app settings.
+     */
+    private lateinit var appSettingsManager: AppSettingsManager
+
+    /**
+     * Activity result launcher for requesting location permissions.
+     *
+     * This launcher handles the result of the permission request dialog. If either fine or coarse
+     * location permission is granted by the user, it proceeds to call `startLocationUpdatesWithPermissionCheck`
+     * to begin receiving location updates.
+     */
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -34,20 +54,33 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        viewModel = CompassViewModel(application)
+
+        appSettingsManager = AppSettingsManager(applicationContext)
+        viewModel = CompassViewModel(application, appSettingsManager)
+
         setContent {
             CompassTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding)) {
-                        CompassScreen(viewModel)
+                val backStack = rememberNavBackStack(Screen.Home)
+                NavDisplay(
+                    backStack,
+                    entryProvider = entryProvider {
+                        entry<Screen.Home> { CompassScreen(viewModel, backStack) }
+                        entry<Screen.Settings> { SettingsScreen(appSettingsManager, onNavBack = { backStack.removeLastOrNull() }) }
                     }
-                }
+                )
             }
         }
 
         checkLocationPermission()
     }
 
+    /**
+     * Checks if the app has been granted location permissions.
+     *
+     * If permission is already granted (either fine or coarse), it proceeds to start location updates.
+     * If permission has not been granted, it launches a system dialog to request the necessary
+     * permissions from the user. The result of this request is handled by [requestPermissionLauncher].
+     */
     private fun checkLocationPermission() {
         when {
             ContextCompat.checkSelfPermission(
@@ -71,6 +104,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Checks for location permissions (fine or coarse) again before starting location updates.
+     * This function serves as a final safeguard to ensure that the app has the necessary
+     * permissions before calling `viewModel.startLocationUpdates()`. It is called after
+     * permissions have been explicitly granted, either through a previous check or by the user
+     * through a permission request dialog.
+     */
     private fun startLocationUpdatesWithPermissionCheck() {
         if (ContextCompat.checkSelfPermission(
                 this,
