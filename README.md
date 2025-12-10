@@ -8,6 +8,13 @@
 
 A simple compass app for Android that displays the current heading, speed, and magnetic field strength. The app also provides the device's current location (latitude, longitude, and altitude).
 
+<div align="center">
+
+<img src="./screenshots/screenshot_dark.png" width="45%" />
+<img src="./screenshots/screenshot_light.png" width="45%" />
+
+</div>
+
 ## Features
 
 *   **Compass Heading:** Shows the current direction of the device.
