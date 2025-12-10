@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -16,6 +17,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,12 +49,17 @@ fun CompassScreen(
     val magneticFieldDisplayEnabled by viewModel.magneticFieldDisplayEnabled.collectAsState()
     val speedDisplayEnabled by viewModel.speedDisplayEnabled.collectAsState()
 
+    var showCalibrationDialog by remember { mutableStateOf(false) }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = {},
                 actions = {
+                    IconButton(onClick = { showCalibrationDialog = true }) {
+                        Icon(imageVector = Icons.Filled.Info, contentDescription = "Calibrate Compass")
+                    }
                     IconButton(onClick = { backStack.add(Screen.Settings) }) {
                         Icon(imageVector = Icons.Outlined.Settings, contentDescription = "Settings")
                     }
@@ -70,6 +79,10 @@ fun CompassScreen(
                 modifier = Modifier.padding(innerPadding)
             )
         }
+    
+    if (showCalibrationDialog) {
+        CalibrationDialog(onDismissRequest = { showCalibrationDialog = false })
+    }
 }
 
 @Composable
