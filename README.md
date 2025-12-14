@@ -6,7 +6,7 @@
 
 </div>
 
-A simple compass app for Android that displays the current heading, speed, and magnetic field strength. The app also provides the device's current location (latitude, longitude, and altitude).
+A compass app for Android that displays the azimuth, latitude, longitude, altitude, current heading, speed, and magnetic field strength.
 
 <div align="center">
 
@@ -34,4 +34,4 @@ To build the project, you will need Android Studio and the Android SDK. You can 
 
 ## Future Todos
 
-- [ ] **Set Target:** Allow users to input coordinates for a destination and have the compass point towards that target.
+- [ ] **Set Map Markers:** Allow users to input coordinates for a destination and have the compass point towards that map marker.
